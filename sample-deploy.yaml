@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cicd-deploy
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front-end
+  template: # Pod configuration/specification
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - name: cicd-container
+        image: gcr.io/brio-eta-training/frontend-image:latest

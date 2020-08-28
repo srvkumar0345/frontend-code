@@ -1,0 +1,42 @@
+steps:
+
+### Build 
+
+  - id: 'build'
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+          docker build -f Dockerfile -t gcr.io/brio-eta-training/frontend-image:latest .
+          
+### Publish
+  - id: 'publish'
+    name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+          docker push gcr.io/brio-eta-training/frontend-image:latest
+### Deploy
+  - id: 'deploy'
+    name: 'gcr.io/cloud-builders/gcloud'
+    env:
+      - 'ZONE=us-central1-b'
+      - 'CLUSTER=gke-deploy-cluster'
+      - 'PROJECT=brio-eta-training'
+      - 'KUBECONFIG=/kube/config'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+          gcloud container clusters get-credentials "$${CLUSTER}" \
+            --project "$${PROJECT}" \
+            --zone "$${ZONE}"  
+         
+
+          sed -i 's|gcr.io/brio-eta-training/angular-infytel-latest|gcr.io/brio-eta-training/infytel-cicd-gke:${SHORT_SHA}|' angular-deploy.yaml
+          
+          kubectl apply -f sample-deploy.yaml
+          kubectl apply -f np-svc.yaml
+        

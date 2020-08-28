@@ -22,8 +22,8 @@ steps:
   - id: 'deploy'
     name: 'gcr.io/cloud-builders/gcloud'
     env:
-      - 'ZONE=us-central1-b'
-      - 'CLUSTER=gke-deploy-cluster'
+      - 'ZONE=us-central1-c'
+      - 'CLUSTER=demo-cluster'
       - 'PROJECT=brio-eta-training'
       - 'KUBECONFIG=/kube/config'
     entrypoint: 'bash'
@@ -34,8 +34,6 @@ steps:
             --project "$${PROJECT}" \
             --zone "$${ZONE}"  
          
-
-          sed -i 's|gcr.io/brio-eta-training/angular-infytel-latest|gcr.io/brio-eta-training/infytel-cicd-gke:${SHORT_SHA}|' angular-deploy.yaml
           
           kubectl apply -f sample-deploy.yaml
           kubectl apply -f np-svc.yaml

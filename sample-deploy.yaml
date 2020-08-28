@@ -16,3 +16,4 @@ spec:
       containers:
       - name: cicd-container
         image: gcr.io/brio-eta-training/frontend-image
+        imagePullPolicy: Always

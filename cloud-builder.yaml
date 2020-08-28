@@ -36,7 +36,7 @@ steps:
             --project "$${PROJECT}" \
             --zone "$${ZONE}"  
          
-          sed -i 's|gcr.io/brio-eta-training/frontend-image|gcr.io/brio-eta-training/frontend-image:latest|' sample-deploy.yaml
+        
 
           kubectl apply -f sample-deploy.yaml
           kubectl apply -f np-svc.yaml

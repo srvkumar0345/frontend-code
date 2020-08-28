@@ -5,10 +5,12 @@ steps:
   - id: 'build'
     name: 'gcr.io/cloud-builders/docker'
     entrypoint: 'bash'
+    env:
+      - 'BUILD=$BUILD_ID'
     args:
       - '-c'
       - |
-          docker build -f Dockerfile -t gcr.io/brio-eta-training/frontend-image:$(BUILD_ID) .
+          docker build -f Dockerfile -t gcr.io/brio-eta-training/frontend-image:$(BUILD) .
           
 ### Publish
   - id: 'publish'
@@ -17,7 +19,7 @@ steps:
     args:
       - '-c'
       - |
-          docker push gcr.io/brio-eta-training/frontend-image:$(BUILD_ID)
+          docker push gcr.io/brio-eta-training/frontend-image:$(BUILD)
 ### Deploy
   - id: 'deploy'
     name: 'gcr.io/cloud-builders/gcloud'
@@ -34,7 +36,7 @@ steps:
             --project "$${PROJECT}" \
             --zone "$${ZONE}"  
          
-          sed -i 's|gcr.io/brio-eta-training/frontend-image:latest|gcr.io/brio-eta-training/frontend-image:$(BUILD_ID)|' sample-deploy.yaml
+          sed -i 's|gcr.io/brio-eta-training/frontend-image:latest|gcr.io/brio-eta-training/frontend-image:$(BUILD)|' sample-deploy.yaml
 
           kubectl apply -f sample-deploy.yaml
           kubectl apply -f np-svc.yaml

@@ -40,4 +40,5 @@ steps:
 
           kubectl apply -f sample-deploy.yaml
           kubectl apply -f np-svc.yaml
+          kubectl rollout restart deploy cicd-deploy
         

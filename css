@@ -1,72 +1,44 @@
-*, *::before, *::after {
-	box-sizing: inherit;
+:root {
+  --blue: #5479ff;
+  --white: #ffffff;
+  --max: 9999px;
+  --gray: #bfbfbf;
 }
-:root, body {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-	background: #eee;
-}
+
 body {
-	display: grid;
-	place-items: center;
-	place-content: center;
-}
-.base {
-	position: relative;
-	display: grid;
-	grid-template-columns: repeat(30, 1fr);
-  grid-template-rows: repeat(10, 1fr);
-	width: 210px;
-	height: 70px;
-	border-radius: 3px;
-	color: #fff;
-	background: #027ad6;
-	font: 700 24px sans-serif;
-	box-shadow:
-		0 1px 2px rgba(0,0,0,0.07), 
-		0 2px 4px rgba(0,0,0,0.07), 
-		0 4px 8px rgba(0,0,0,0.07), 
-		0 8px 16px rgba(0,0,0,0.07),
-		0 16px 32px rgba(0,0,0,0.07), 
-		0 32px 64px rgba(0,0,0,0.07);
+  font-family: "Quicksand", sans-serif;
+  font-weight: 1.78;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-i {
-	width: calc(210px / 30);
-	height: calc(70px / 10);
-}
+button {
+  all: unset;
+  background: var(--white);
+  border: 2px solid var(--gray);
+  color: var(--gray);
+  padding: 15px 30px;
+  border-radius: var(--max);
+  cursor: pointer;
+  transition: 500ms all ease-in-out;
+  height: 40px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  width: 200px;
 
-@for $i from 1 through 10 {
-	i:nth-child(n + #{ 30 * ($i - 1) + 1 }):nth-child(-n + #{ 30 * $i }):hover ~ .bg {
-		--y: #{ 10 * $i }%;
-	}
-}
+  &:hover {
+    background: var(--grey);
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  
+  
 
-@for $i from 1 through 30 {
-	i:nth-child(30n+#{ $i }):hover ~ .bg  {
-		--x: #{ 100 / 30 * $i }%;
-	}
-}
-
-.bg {
-	position: absolute;
-	z-index: 10;
-	left: 0;
-	top: 0;
-	display: grid;
-	place-content: center;
-	width: 100%;
-	height: 100%;
-	grid-column: 1 / span 30;
-  grid-row: 1 / span 10;
-	transition: opacity .3s;
-	pointer-events: none;
-	text-shadow: 0px 2px 5px rgba(0,0,0,.1);
-}
-
-i:hover ~ .bg {
-	background: radial-gradient(circle 110px at var(--x) var(--y), rgba(169, 242, 136, .4), rgba(169, 242, 136, 0));
-}
+}  
